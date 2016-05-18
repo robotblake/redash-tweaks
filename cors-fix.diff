@@ -1,0 +1,13 @@
+diff --git a/redash/handlers/query_results.py b/redash/handlers/query_results.py
+index a89f94d..a9c658e 100644
+--- a/redash/handlers/query_results.py
++++ b/redash/handlers/query_results.py
+@@ -73,7 +73,7 @@ class QueryResultResource(BaseResource):
+         if 'Origin' in request.headers:
+             origin = request.headers['Origin']
+ 
+-            if origin in settings.ACCESS_CONTROL_ALLOW_ORIGIN:
++            if set(['*', origin]) & settings.ACCESS_CONTROL_ALLOW_ORIGIN:
+                 headers['Access-Control-Allow-Origin'] = origin
+                 headers['Access-Control-Allow-Credentials'] = str(settings.ACCESS_CONTROL_ALLOW_CREDENTIALS).lower()
+ 
