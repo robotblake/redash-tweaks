@@ -1,4 +1,4 @@
-FROM redash/redash:0.10.1.b1834
+FROM redash/redash:0.11.1.b2095
 
 ENV PORT=5000 \
     REDASH_SERVER_WORKERS=4 \
