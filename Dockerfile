@@ -7,8 +7,10 @@ ENV PORT=5000 \
 
 COPY supervisord.conf /opt/redash/supervisord/supervisord.conf
 
-RUN pip install --upgrade git+https://github.com/vitillo/PyHive.git@pretty
+RUN pip install --upgrade git+https://github.com/vitillo/PyHive.git@deployment#egg=pyhive
 
 COPY cors-fix.diff /opt/redash/current
-
 RUN patch -p1 < cors-fix.diff
+
+COPY query-cancel.diff /opt/redash/current
+RUN patch -p1 < query-cancel.diff

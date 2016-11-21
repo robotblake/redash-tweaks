@@ -1,0 +1,42 @@
+diff --git a/circle.yml b/circle.yml
+index 2e261df..5301045 100644
+--- a/circle.yml
++++ b/circle.yml
+@@ -1,6 +1,7 @@
+ machine:
+   services:
+     - docker
++    - redis
+   node:
+     version:
+       0.12.4
+diff --git a/redash/query_runner/presto.py b/redash/query_runner/presto.py
+index ba879c9..2da64c4 100644
+--- a/redash/query_runner/presto.py
++++ b/redash/query_runner/presto.py
+@@ -89,7 +89,11 @@ def run_query(self, query):
+             data = {'columns': columns, 'rows': rows}
+             json_data = json.dumps(data, cls=JSONEncoder)
+             error = None
+-        except Exception, ex:
++        except (KeyboardInterrupt, InterruptException) as e:
++            cursor.cancel()
++            error = "Query cancelled by user."
++            json_data = None
++        except Exception as ex:
+             json_data = None
+             error = ex.message
+ 
+diff --git a/requirements_all_ds.txt b/requirements_all_ds.txt
+index 7ac0945..130cd02 100644
+--- a/requirements_all_ds.txt
++++ b/requirements_all_ds.txt
+@@ -4,7 +4,7 @@ impyla==0.10.0
+ influxdb==2.7.1
+ MySQL-python==1.2.5
+ oauth2client==1.2
+-pyhive==0.1.6
++git+https://github.com/vitillo/PyHive.git@deployment#egg=pyhive
+ pymongo==3.2.1
+ pyOpenSSL==0.14
+ vertica-python==0.5.1
