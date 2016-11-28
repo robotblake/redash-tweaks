@@ -6,6 +6,7 @@ ENV PORT=5000 \
     REDASH_CELERY_SCHEDULED_CONCURRENCY=8
 
 COPY supervisord.conf /opt/redash/supervisord/supervisord.conf
+COPY ssl/ /opt/redash/ssl/
 
 RUN pip install --upgrade git+https://github.com/vitillo/PyHive.git@deployment#egg=pyhive
 
